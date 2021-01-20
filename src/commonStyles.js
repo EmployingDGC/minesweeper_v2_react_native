@@ -13,10 +13,11 @@ const commonStyles = {
         field: {
             border: {
                 dark: "#808080",
-                light: "#D8D8D8",
+                light: "#E4E4E4",
             },
 
             background: "#C0C0C0",
+            backgroundExploded: "#FE0000",
         },
         
         numbers: {
