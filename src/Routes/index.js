@@ -16,7 +16,7 @@ class Routes extends React.Component {
                 />
 
                 <NavigationContainer>
-                    <Navigation initialRouteName="Menu"/>
+                    <Navigation initialRouteName="Game"/>
                 </NavigationContainer>
             </View>
         )
