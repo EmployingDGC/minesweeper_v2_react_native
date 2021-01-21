@@ -7,8 +7,8 @@ const commonStyles = {
     },
 
     colors: {
-        primary: "",
-        secundary: "",
+        primary: "#000000",
+        secundary: "#FFFFFF",
 
         field: {
             border: {

@@ -16,6 +16,14 @@ class Stack extends React.Component {
         }
     }
 
+    newGame = () => {
+        return ({
+            rows: 30,
+            columns: 10,
+            qty_mines: 10,
+        });
+    }
+
     render() {
         return (
             <StackComponent.Navigator
@@ -25,7 +33,11 @@ class Stack extends React.Component {
                 }}
             >
                 <StackComponent.Screen name="Menu" component={Menu} />
-                <StackComponent.Screen name="Game" component={Game} />
+                <StackComponent.Screen
+                    name="Game"
+                    component={Game}
+                    initialParams={this.newGame()}
+                />
             </StackComponent.Navigator>
         )
     };

@@ -4,6 +4,10 @@ import {
     Dimensions,
     ScrollView,
     Alert,
+    Modal,
+    Text,
+    TouchableOpacity,
+    TextInput,
 } from "react-native";
 
 import Board from "../../components/Game/Board";
@@ -20,10 +24,14 @@ class Game extends React.Component {
 
         this.initialState = {
             board: null,
-            rows: 30,
-            columns: 10,
-            qty_mines: 10,
+            rows: props.route.params.rows,
+            columns: props.route.params.columns,
+            qty_mines: props.route.params.qty_mines,
             qty_flags_used: 0,
+            modal_open: false,
+            descriptionRows: "",
+            descriptionColumns: "",
+            descriptionMines: "",
         };
 
         this.state = {
@@ -39,8 +47,31 @@ class Game extends React.Component {
         this.state.board = newBoard(this.state.rows, this.state.columns, this.state.qty_mines);
     }
 
-    resetState = () => {
-        const state = {...this.initialState};
+    restartState = () => {
+        const state = {
+            ...this.state,
+            qty_flags_used: 0,
+        };
+
+        const maxMines = state.rows * state.columns * 75 / 100;
+
+        if (state.qty_mines > maxMines) {
+            state.qty_mines = Math.floor(maxMines);
+        }
+
+        state.board = newBoard(state.rows, state.columns, state.qty_mines),
+
+        this.setState(state);
+    }
+
+    resetState = (rows = this.initialState.rows, columns = this.initialState.columns, qty_mines = this.initialState.qty_mines) => {
+        const state = {
+            ...this.initialState,
+            rows,
+            columns,
+            qty_mines,
+        };
+
         const maxMines = state.rows * state.columns * 75 / 100;
 
         if (state.qty_mines > maxMines) {
@@ -75,10 +106,17 @@ class Game extends React.Component {
         }
 
         if (qty_field_opened === board_length - qty_mines_flagged) {
-            return true;
+            Alert.alert("Você ganhou", "parabéns!", [
+                {
+                    text: "Reiniciar",
+                    onPress: () => this.restartState(),
+                },
+                {
+                    text: "Ir para o Menu",
+                    onPress: () => this.props.navigation.navigate("Menu"),
+                }
+            ]);
         }
-
-        return false;
     }
 
     onPressField = (row, column) => {
@@ -99,11 +137,11 @@ class Game extends React.Component {
             Alert.alert("Você perdeu", "animal!", [
                 {
                     text: "Reiniciar",
-                    onPress: () => this.resetState(),
+                    onPress: () => this.restartState(),
                 },
                 {
                     text: "Ir para o Menu",
-                    onPress: () => console.log("Ask me later pressed"),
+                    onPress: () => this.props.navigation.navigate("Menu"),
                 }
             ]);
         }
@@ -122,6 +160,10 @@ class Game extends React.Component {
         this.setState({
             board,
         });
+
+        if (this.state.qty_flags_used === this.state.qty_mines) {
+            this.youWon();
+        }
     }
 
     onLongPressField = (row, column) => {
@@ -150,25 +192,107 @@ class Game extends React.Component {
         });
 
         if (qty_flags_used === this.state.qty_mines) {
-            if (this.youWon()) {
-                Alert.alert("Você ganhou", "parabéns!", [
-                    {
-                        text: "Reiniciar",
-                        onPress: () => this.resetState(),
-                    },
-                    {
-                        text: "Ir para o Menu",
-                        onPress: () => console.log("Ask me later pressed"),
-                    }
-                ]);
-            }
+            this.youWon();
         }
+    }
+
+    onPressFlag = () => {
+        const modal_open = !this.state.modal_open;
+
+        this.setState({
+            modal_open,
+        });
+    }
+
+    onSetRowsDescription = (description) => {
+        this.setState({
+            descriptionRows: description,
+        });
+    }
+
+    onSetColumnsDescription = (description) => {
+        this.setState({
+            descriptionColumns: description,
+        });
+    }
+
+    onSetMinesDescription = (description) => {
+        this.setState({
+            descriptionMines: description,
+        });
+    }
+
+    onCloseModal = () => {
+        this.setState({
+            modal_open: false,
+            descriptionRows: "",
+            descriptionColumns: "",
+            descriptionMines: "",
+        });
     }
 
     render() {
         return (
             <View style={[styles.container]}>
-                <Header qtyFlags={this.state.qty_mines - this.state.qty_flags_used} />
+                <Modal
+                    visible={this.state.modal_open}
+                    transparent={true}
+                    animationType="slide"
+                >
+                    <View style={[styles.containerModal]}>
+                        <View style={[styles.contentModal]}>
+                            <Text style={[styles.tittleModal]}>Tittle</Text>
+                            <View style={[styles.containerTextInput]}>
+                                <TextInput
+                                    key="0"
+                                    style={[styles.textInput]}
+                                    placeholder={`Linhas: ${this.state.rows}`}
+                                    value={this.state.descriptionRows}
+                                    onChangeText={(description) => this.onSetRowsDescription(description)}
+                                    keyboardType="numeric"
+                                />
+                                <TextInput
+                                    key="1"
+                                    style={[styles.textInput]}
+                                    placeholder={`Colunas: ${this.state.columns}`}
+                                    value={this.state.descriptionColumns}
+                                    onChangeText={(description) => this.onSetColumnsDescription(description)}
+                                    keyboardType="numeric"
+                                />
+                                <TextInput
+                                    key="2"
+                                    style={[styles.textInput]}
+                                    placeholder={`Minas: ${this.state.qty_mines}`}
+                                    value={this.state.descriptionMines}
+                                    onChangeText={(description) => this.onSetMinesDescription(description)}
+                                    keyboardType="numeric"
+                                />
+                            </View>
+                            <View style={[styles.buttonContainerModal]}>
+                                <TouchableOpacity
+                                    onPress={() => this.onCloseModal()}
+                                >
+                                    <Text style={[styles.buttonModal]}>Cancelar</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={() => this.resetState(
+                                        parseInt(this.state.descriptionRows) || this.state.rows,
+                                        parseInt(this.state.descriptionColumns) || this.state.columns,
+                                        parseInt(this.state.descriptionMines) || this.state.qty_mines)}
+                                >
+                                    <Text style={[styles.buttonModal]}>OK</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                <Header
+                    qtyFlags={this.state.qty_mines - this.state.qty_flags_used}
+                    onPress={this.onPressFlag}
+                />
+                
                 <ScrollView>
                     <Board
                         width={Dimensions.get("window").width / this.state.columns}
