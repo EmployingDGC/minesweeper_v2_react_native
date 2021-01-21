@@ -26,6 +26,7 @@ const Field = (props) => {
         containerOpen: {
             borderTopColor: commonStyles.colors.field.border.dark,
             borderLeftColor: commonStyles.colors.field.border.dark,
+            borderWidth: props.size * .04,
         },
         
         containerExploded: {
@@ -57,7 +58,7 @@ const renderField = (size, char, propsField) => {
         return <Bomb size={sizeBomb} />
     }
 
-    if (propsField.number >= 1 && propsField.number <= 8) {
+    if (propsField.number >= 1 && propsField.number <= 8 && propsField.opened) {
         return <Char size={sizeNumber} char={char} />;
     }
 
