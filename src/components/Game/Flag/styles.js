@@ -37,6 +37,23 @@ const styles = StyleSheet.create({
         height: "10%",
         backgroundColor: commonStyles.colors.flag.base,
     },
+
+    stem: {
+        width: "100%",
+        height: "10%",
+        zIndex: 1,
+        backgroundColor: commonStyles.colors.flag.flag,
+        position: "absolute",
+        left: 0,
+    },
+
+    rotete45: {
+        transform: [{rotateZ: "45deg"}],
+    },
+    
+    rotete135: {
+        transform: [{rotateZ: "135deg"}],
+    }
 });
 
 export default styles;

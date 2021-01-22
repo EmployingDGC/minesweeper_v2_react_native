@@ -12,15 +12,17 @@ class Stack extends React.Component {
         super(props);
 
         this.state = {
-            // umaPropriedade: this.props.umaPropriedade,
+            rows: 10,
+            columns: 10,
+            qty_mines: 15,
         }
     }
 
-    newGame = () => {
-        return ({
-            rows: 30,
-            columns: 10,
-            qty_mines: 10,
+    newGame = (rows, columns, qty_mines) => {
+        this.setState({
+            rows,
+            columns,
+            qty_mines,
         });
     }
 
@@ -36,7 +38,7 @@ class Stack extends React.Component {
                 <StackComponent.Screen
                     name="Game"
                     component={Game}
-                    initialParams={this.newGame()}
+                    initialParams={this.state}
                 />
             </StackComponent.Navigator>
         )

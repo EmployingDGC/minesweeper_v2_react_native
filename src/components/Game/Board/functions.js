@@ -9,6 +9,9 @@ const showAllMines = (board) => {
             if (field.mined) {
                 field.opened = true;
             }
+            else if (field.flagged) {
+                field.flaggedWrong = true
+            }
         }
     }
 }
@@ -96,6 +99,7 @@ const createBoard = (rows, columns) => {
                 opened: false,
                 flagged: false,
                 exploded: false,
+                flaggedWrong: false,
             };
 
             r.push(c);

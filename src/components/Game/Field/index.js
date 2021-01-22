@@ -51,6 +51,9 @@ const renderField = (size, char, propsField) => {
     const sizeBomb = size - size * .40;
 
     if (propsField.flagged && !propsField.opened) {
+        if (propsField.flaggedWrong)
+            return <Flag size={sizeFlag} wrong />
+        
         return <Flag size={sizeFlag} />
     }
     
