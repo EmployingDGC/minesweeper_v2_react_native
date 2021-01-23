@@ -8,8 +8,19 @@ import Flag from "../Flag";
 import Char from "../Char";
 
 const Field = (props) => {
-    
-    const styles = StyleSheet.create({
+    return (
+        <View style={[
+            styles(props).container,
+            props.props.opened ? styles(props).containerOpen : null,
+            props.props.exploded && props.props.opened ? styles(props).containerExploded : null,
+        ]}>
+            {renderField(props.size, `${props.props.number}`, props.props)}
+        </View>
+    );
+}
+
+const styles = (props) => {
+    return StyleSheet.create({
         container: {
             justifyContent: "center",
             alignItems: "center",
@@ -33,16 +44,6 @@ const Field = (props) => {
             backgroundColor: commonStyles.colors.field.backgroundExploded,
         },
     });
-
-    return (
-        <View style={[
-            styles.container,
-            props.props.opened ? styles.containerOpen : null,
-            props.props.exploded && props.props.opened ? styles.containerExploded : null,
-        ]}>
-            {renderField(props.size, `${props.props.number}`, props.props)}
-        </View>
-    );
 }
 
 const renderField = (size, char, propsField) => {

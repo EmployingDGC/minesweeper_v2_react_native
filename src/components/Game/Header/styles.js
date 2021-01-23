@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
     },
 
     text: {
+        fontFamily: commonStyles.fonts.tittle,
         fontSize: 45,
         marginLeft: 10,
-        fontWeight: "bold",
     },
 
     buttonModal: {
@@ -35,13 +35,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#0000007C",
     },
 
-    textButtonModal: {
-        fontFamily: commonStyles.fonts.subtittle,
-        fontSize: 15,
-        color: commonStyles.colors.secundary,
-    },
-
-    textButtonBack: {
+    textButton: {
         fontFamily: commonStyles.fonts.subtittle,
         fontSize: 15,
         color: commonStyles.colors.secundary,

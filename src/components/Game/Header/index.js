@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import Bomb from "../Bomb";
 import Flag from "../Flag";
@@ -14,7 +15,6 @@ const Header = (props) => {
                 onPress={props.onPress}
             >
                 {props.flag ? <Flag size={40} /> : <Bomb size={40} />}
-                
             </TouchableOpacity>
 
             <Text style={[styles.text]}>{props.qtyFlags}</Text>
@@ -24,8 +24,11 @@ const Header = (props) => {
                 style={[styles.buttonModal]}
                 onPress={props.onModal}
             >
-                <Text style={[styles.textButtonModal]}>Novo</Text>
-                <Text style={[styles.textButtonModal]}>Jogo</Text>
+                <Icon
+                    name="bars"
+                    size={25}
+                    color="#FFF"
+                />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -33,7 +36,11 @@ const Header = (props) => {
                 style={[styles.buttonBack]}
                 onPress={() => props.onBack("Menu")}
             >
-                <Text style={[styles.textButtonBack]}>{"< Voltar"}</Text>
+                <Icon
+                    name="arrow-left"
+                    size={25}
+                    color="#FFF"
+                />
             </TouchableOpacity>
         </View>
     );
