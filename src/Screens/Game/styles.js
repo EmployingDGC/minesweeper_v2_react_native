@@ -4,6 +4,7 @@ import commonStyles from "../../commonStyles";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: commonStyles.colors.field.background,
     },
     
     containerModal: {
@@ -14,12 +15,16 @@ const styles = StyleSheet.create({
     },
 
     containerTextInput: {
-
+        marginBottom: 10,
     },
-
+    
     textInput: {
-        backgroundColor: commonStyles.colors.secundary,
+        fontFamily: commonStyles.fonts.subtittle,
         fontSize: 20,
+        width: "100%",
+        backgroundColor: "#EEE",
+        borderRadius: 15,
+        paddingHorizontal: 15,
     },
 
     contentModal: {
@@ -30,9 +35,11 @@ const styles = StyleSheet.create({
     },
 
     tittleModal: {
+        fontFamily: commonStyles.fonts.tittle,
+        marginBottom: 20,
+        textAlign: "center",
         fontSize: 40,
         fontWeight: "bold",
-
     },
 
     buttonContainerModal: {
@@ -42,6 +49,7 @@ const styles = StyleSheet.create({
 
     buttonModal: {
         padding: 10,
+        fontSize: 20,
     },
 });
 

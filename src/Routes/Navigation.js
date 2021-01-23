@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Menu from "../Screens/Menu";
 import Game from "../Screens/Game";
+import Records from "../Screens/Records";
 
 const StackComponent = createStackNavigator();
 
@@ -39,6 +40,10 @@ class Stack extends React.Component {
                     name="Game"
                     component={Game}
                     initialParams={this.state}
+                />
+                <StackComponent.Screen
+                    name="Records"
+                    component={Records}
                 />
             </StackComponent.Navigator>
         )

@@ -29,6 +29,7 @@ class Game extends React.Component {
             qty_mines: props.route.params.qty_mines,
             qty_flags_used: 0,
             modal_open: false,
+            use_flag: false,
             descriptionRows: "",
             descriptionColumns: "",
             descriptionMines: "",
@@ -106,7 +107,7 @@ class Game extends React.Component {
         }
 
         if (qty_field_opened === board_length - qty_mines_flagged) {
-            Alert.alert("Você ganhou", "parabéns!", [
+            Alert.alert("Parabens!", "Você ganhou", [
                 {
                     text: "Reiniciar",
                     onPress: () => this.restartState(),
@@ -134,7 +135,7 @@ class Game extends React.Component {
         if (field.mined) {
             field.exploded = true;
             showAllMines(board);
-            Alert.alert("Você perdeu", "animal!", [
+            Alert.alert("Que pena...", "Você perdeu!", [
                 {
                     text: "Reiniciar",
                     onPress: () => this.restartState(),
@@ -196,11 +197,18 @@ class Game extends React.Component {
         }
     }
 
-    onPressFlag = () => {
+    onPressButtonModal = () => {
         const modal_open = !this.state.modal_open;
 
         this.setState({
             modal_open,
+        });
+    }
+
+    onToggleUseFlag = () => {
+        const use_flag = !this.state.use_flag;
+        this.setState({
+            use_flag,
         });
     }
 
@@ -241,7 +249,7 @@ class Game extends React.Component {
                 >
                     <View style={[styles.containerModal]}>
                         <View style={[styles.contentModal]}>
-                            <Text style={[styles.tittleModal]}>Tittle</Text>
+                            <Text style={[styles.tittleModal]}>Novo Jogo</Text>
                             <View style={[styles.containerTextInput]}>
                                 <TextInput
                                     key="0"
@@ -251,6 +259,8 @@ class Game extends React.Component {
                                     onChangeText={(description) => this.onSetRowsDescription(description)}
                                     keyboardType="numeric"
                                 />
+                            </View>
+                            <View style={[styles.containerTextInput]}>
                                 <TextInput
                                     key="1"
                                     style={[styles.textInput]}
@@ -259,6 +269,8 @@ class Game extends React.Component {
                                     onChangeText={(description) => this.onSetColumnsDescription(description)}
                                     keyboardType="numeric"
                                 />
+                            </View>
+                            <View style={[styles.containerTextInput]}>
                                 <TextInput
                                     key="2"
                                     style={[styles.textInput]}
@@ -268,7 +280,7 @@ class Game extends React.Component {
                                     keyboardType="numeric"
                                 />
                             </View>
-                            <View style={[styles.buttonContainerModal]}>
+                            <View style={[styles.buttonContainerModal, {marginBottom: 0}]}>
                                 <TouchableOpacity
                                     onPress={() => this.onCloseModal()}
                                 >
@@ -281,7 +293,7 @@ class Game extends React.Component {
                                         parseInt(this.state.descriptionColumns) || this.state.columns,
                                         parseInt(this.state.descriptionMines) || this.state.qty_mines)}
                                 >
-                                    <Text style={[styles.buttonModal]}>OK</Text>
+                                    <Text style={[styles.buttonModal]}>Criar</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -289,16 +301,18 @@ class Game extends React.Component {
                 </Modal>
 
                 <Header
+                    flag={this.state.use_flag}
                     qtyFlags={this.state.qty_mines - this.state.qty_flags_used}
-                    onPress={this.onPressFlag}
+                    onPress={this.onToggleUseFlag}
+                    onModal={this.onPressButtonModal}
+                    onBack={this.props.navigation.navigate}
                 />
                 
                 <ScrollView>
                     <Board
                         width={Dimensions.get("window").width / this.state.columns}
                         board={this.state.board}
-                        onPress={this.onPressField}
-                        onLongPress={this.onLongPressField}
+                        onPress={this.state.use_flag ? this.onLongPressField : this.onPressField}
                     />
                 </ScrollView>
             </View>

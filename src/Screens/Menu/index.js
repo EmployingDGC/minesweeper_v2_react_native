@@ -33,12 +33,11 @@ class Menu extends React.Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => {}}
+                        onPress={() => this.props.navigation.navigate("Records")}
                         activeOpacity={.6}
                     >
-                        <Text style={[styles.subtittle, {marginBottom: 0}]}>Configurações</Text>
+                        <Text style={[styles.subtittle, {marginBottom: 0}]}>Recordes</Text>
                     </TouchableOpacity>
-
                 </View>
             </ImageBackground>
         )

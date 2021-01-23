@@ -17,7 +17,6 @@ const renderBoard = (board, width, onPress, onLongPress) => {
                 <TouchableHighlight
                     key={`${row} ${column}`}
                     onPress={() => onPress(row, column)}
-                    onLongPress={() => onLongPress(row, column)}
                     disabled={board[row][column].opened}
                 >
                     <Field

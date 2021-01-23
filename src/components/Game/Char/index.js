@@ -51,6 +51,7 @@ const Char = (props) => {
         ]}>
             <Text style={[
                 {
+                    fontFamily: commonStyles.fonts.subtittle,
                     color: setColor(props.char),
                     fontSize: props.size,
                 }
